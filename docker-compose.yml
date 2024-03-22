@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo-db
+    restart: always      
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo-server
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: q
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    networks:
+      - claudia-network
+
+  mongo-db:
+    image: mongo
+    container_name: mongo-server
+    environment:
+      MONGO_INITDB_DATABASE: demodb  
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - claudia-network
+
+networks: 
+    claudia-network:
+      driver: bridge
+
+# requires: docker volume create --name mongodb_data_container
+volumes:
+    mongodb_data_container:
+      external: true
