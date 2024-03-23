@@ -2,6 +2,7 @@ version: '3.1'
 services:
 
   front:
+    image: claudia-front
     build:
       context: front
       dockerfile: Dockerfile
@@ -11,6 +12,7 @@ services:
       - claudia-network
 
   back:
+    image: claudia-back
     build:
       context: back
       dockerfile: Dockerfile
