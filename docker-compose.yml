@@ -1,6 +1,24 @@
 version: '3.1'
 services:
 
+  front:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - claudia-network
+
+  back:
+    build:
+      context: back
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - claudia-network
+
   mongo-db:
     image: mongo
     container_name: mongo
