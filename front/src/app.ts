@@ -17,9 +17,5 @@ const server = http.createServer(function (req, res) {
 })
 
 server.listen(PORT, function () {
-  // vidi koji je ovde validan path
-  // if (error){
-  //     console.log('Error occured: ', error)
-  // }
   console.log('La madama C FRONT se está ejecutando en el puerto: ', PORT)
 })
