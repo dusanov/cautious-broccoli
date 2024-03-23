@@ -1,5 +1,5 @@
-import http from 'http'
-import fs from 'fs'
+import * as http from 'http'
+import * as fs from 'fs'
 
 const PORT = 3000
 
