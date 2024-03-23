@@ -1,6 +1,21 @@
 version: '3.1'
 services:
 
+  mongo-db:
+    image: mongo
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: claudia  
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+      - ${PWD}/storage/init/a_mongo-init.js:/docker-entrypoint-initdb.d/a.js
+    networks:
+      - claudia-network
+
   mongo-express:
     image: mongo-express
     container_name: mongo-express
@@ -10,26 +25,12 @@ services:
       - mongo-db
     restart: always      
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongo-server
+      ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: q
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-    networks:
-      - claudia-network
-
-  mongo-db:
-    image: mongo
-    container_name: mongo-server
-    environment:
-      MONGO_INITDB_DATABASE: demodb  
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data_container:/data/db
     networks:
       - claudia-network
 
