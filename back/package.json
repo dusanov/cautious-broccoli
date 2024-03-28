@@ -2,7 +2,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "mongoose": "^8.2.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
