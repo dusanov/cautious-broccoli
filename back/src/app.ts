@@ -1,33 +1,62 @@
 import * as pug from 'pug'
 import express from 'express'
+import expressWs from 'express-ws'
 import cors from 'cors';
+import * as http from 'http'
 
+const bodyParser = require('body-parser');
 const mongoose = require('./mongo/mongoose.js')
-const port = 3001
-const app = express();
 
+const PORT = process.env.PORT || 3001
 const corsOptions = {
-    credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:80'] 
+  credentials: true,
+  origin: ['http://localhost:3000', 'http://localhost:80'] 
 };
 
+let app = express();
 app.use(cors(corsOptions));
-app.get('/',(req,res) => {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine','pug');
+const server = new http.Server(app)
+const ws = expressWs(app);
+// const ws = expressWs(app,server);
+const askChannel  = ws.getWss();
+
+ws.app.get('/',(req,res) => {
   res.send(pug.renderFile('./templates/holamundo.pug'))
 })
-app.post('/',(req,res) => {
-  res.send(pug.renderFile('./templates/template.pug',{name:'madame C'}))
-})
 
-app.post("/esoes", async (req,res) => {
+ws.app.post("/ask", async (req,res) => {
   const data = await mongoose.Response.findOne({id:0})
+  console.log('/ask post')
   res.send(pug.render(
       data.content,
       {name: 'Miss C herself'}
   ))  
-
 })
 
-app.listen(port, () => {
-  console.log('La madama C BACK se está ejecutando en el puerto: ', port);
+ws.app.ws('/ask', async function(ws, req) {
+  console.log('/ask ws  ')
+  ws.on('message', async function(msg: any) {
+    const whateva  = JSON.parse(msg);
+    console.log('whateva', whateva)
+    askChannel.clients.forEach(client => {
+      client.send(pug.renderFile('./templates/question.pug',{text:whateva.message}))
+    });    
+    setTimeout(async function() {
+      const data = await mongoose.Response.findOne({id:0})
+      askChannel.clients.forEach(client => {
+        client.send(pug.renderFile('./templates/answer.pug',{
+           text:pug.render(
+            data.content,
+            {name: whateva.username}
+      )}))
+      });              
+    }, 3000);    
+  });
+});
+
+ws.app.listen(PORT, () => {
+  console.log('La madama C BACK se está ejecutando en el puerto: ', PORT);
 });

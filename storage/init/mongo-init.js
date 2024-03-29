@@ -9,10 +9,8 @@ db.createUser({
   }]
 })
 
-//use 'claudia';
-//db.use("claudia")
 db.responses.insertOne({
     id:0, 
     name: 'hola_user',
-    content: 'p Hola, eso es #{name} conectado !'
+    content: "p  Hola, eso es #{name} conectado !"
 })
