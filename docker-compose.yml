@@ -32,7 +32,7 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data_container:/data/db
-      - ${PWD}/storage/init/a_mongo-init.js:/docker-entrypoint-initdb.d/a.js
+      - ${PWD}/storage/init/mongo-init.js:/docker-entrypoint-initdb.d/a.js
     networks:
       - claudia-network
 
