@@ -1,21 +1,26 @@
-import * as http from 'http'
-import * as fs from 'fs'
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const pug = require('pug');
+const { v4 } = require('uuid');
+const compression = require('compression');
 
-const PORT = 3000
+const app = express();
+const PORT = process.env.PORT || 3000;
+let username = 'Miss C herself';
 
-const server = http.createServer(function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/html' })
-  fs.readFile('main.html', function (error, data) {
-    if (error) {
-      res.writeHead(404)
-      res.write('Error: file not found')
-    } else {
-      res.write(data)
-    }
-    res.end()
-  })
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine','pug');
 
-server.listen(PORT, function () {
-  console.log('La madama C FRONT se está ejecutando en el puerto: ', PORT)
-})
+//TODO not ok
+app.use('/scripts', express.static(path.join(__dirname, '../node_modules')));
+app.use(compression());
+
+app.get('/', (_req: any, res: any) => {
+  // username = chance.name();
+  res.render('index', { name: username });
+});
+
+app.listen(PORT);
+console.log('La madama C FRONT se está ejecutando en el puerto: ', PORT)

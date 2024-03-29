@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+  head
+    title Profetisa Clarividente
+    link(href="/scripts/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+  body
+    nav.navbar.navbar-dark.bg-dark.shadow-sm.py-0
+      .container
+        a.navbar-brand(href="#") Cuanto más pagues, más sabrás
+        span.navbar-text.text-white  #{name}
+    .container
+      .row.justify-content-center
+        main.col-10
+          div(hx-ext="ws" ws-connect="ws://localhost:3001/ask"  ws-target='#wall-div')
+            .wall#wall-div.overflow-auto
+              br
+            form(ws-send="submit")
+              input.form-control(type="hidden", name="username", value=name, readonly)
+              .mb-3.row
+                label(for="txtMessage") Question:
+                textarea#txtMessage.form-control(rows="3", name="message", required="true")
+              .d-grid.gap-2.col-3.mx-auto.mb-3
+                  button.btn.btn-primary.text-center(type="submit") Ask
+    script(src="/scripts/htmx.org/dist/htmx.min.js")
+    script(src="/scripts/htmx.org/dist/ext/ws.js")
+    script(src="https://unpkg.com/hyperscript.org@0.0.5")
