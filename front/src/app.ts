@@ -13,13 +13,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine','pug');
 
-//TODO not ok
+//TODO not ok to expose whole nm
 app.use('/scripts', express.static(path.join(__dirname, '../node_modules')));
+app.use('/static', express.static(path.join(__dirname, '../static')));
 app.use(compression());
 
 app.get('/', (_req: any, res: any) => {
   // username = chance.name();
   res.render('index', { name: username });
+});
+
+app.get('/studio', (_req: any,res: any) => {
+  res.render('studio', { name: username });
 });
 
 app.listen(PORT);

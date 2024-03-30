@@ -48,14 +48,17 @@ ws.app.ws('/ask', async function(ws, req) {
       const data = await mongoose.Response.findOne({id:0})
       askChannel.clients.forEach(client => {
         client.send(pug.renderFile('./templates/answer.pug',{
-           text:pug.render(
-            data.content,
-            {name: whateva.username}
-      )}))
+           text: prepareResponse(data.content, {name: whateva.username})
+      }))
       });              
-    }, 3000);    
+    }, 1000);    
   });
 });
+
+function prepareResponse(content: String, parmams: any) {
+  //TODO
+  return "this is hardcode prepared response from mongo"
+}
 
 ws.app.listen(PORT, () => {
   console.log('La madama C BACK se está ejecutando en el puerto: ', PORT);

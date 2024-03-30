@@ -12,5 +12,5 @@ db.createUser({
 db.responses.insertOne({
     id:0, 
     name: 'hola_user',
-    content: "p  Hola, eso es #{name} conectado !"
+    content: "Hola, eso es #{name} conectado !"
 })
