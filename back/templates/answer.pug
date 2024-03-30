@@ -1,4 +1,7 @@
-.wall#wall-div(hx-swap-oob="beforeend")
-    #answer.border
-        p #{text}
-    br
+#wall-div(hx-swap-oob="beforeend")
+    .media.w-75.mb-1.pull-right
+        img.rounded-circle(src='/static/avatar.svg' alt='user' width='50')        
+        .media-body.ml-3
+            .bg-white.rounded.py-2.px-3.mb-2
+                p.text-small.mb-0.text-muted #{text}
+            p.small.text-muted 12:00 PM | Aug 13

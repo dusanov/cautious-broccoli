@@ -3,24 +3,30 @@ html(lang="en")
   head
     title Profetisa Clarividente
     link(href="/scripts/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+    link(href="/static/studio-layout.css", rel="stylesheet")
+    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet")
   body
-    nav.navbar.navbar-dark.bg-dark.shadow-sm.py-0
+    nav.navbar.navbar-dark.bg-purple.shadow-sm.px-1.py-1
       .container
         a.navbar-brand(href="#") Cuanto más pagues, más sabrás
         span.navbar-text.text-white  #{name}
+        img.rounded-circle(fill="#00ff00" src='/static/avatar.svg' alt='user' width='50')
     .container
-      .row.justify-content-center
+      .row.bg-light.justify-content-center.rounded-xl.overflow-hidden.shadow
         main.col-10
           div(hx-ext="ws" ws-connect="ws://localhost:3001/ask"  ws-target='#wall-div')
             .wall#wall-div.overflow-auto
               br
-            form(ws-send="submit")
+            form(ws-send="submit").align-bottom
               input.form-control(type="hidden", name="username", value=name, readonly)
               .mb-3.row
                 label(for="txtMessage") Question:
                 textarea#txtMessage.form-control(rows="3", name="message", required="true")
               .d-grid.gap-2.col-3.mx-auto.mb-3
-                  button.btn.btn-primary.text-center(type="submit") Ask
+                  .input-group-append
+                      button#button-addon2.btn.btn-link(type='submit')
+                          i.fa.fa-paper-plane 
+                            span Send
     script(src="/scripts/htmx.org/dist/htmx.min.js")
     script(src="/scripts/htmx.org/dist/ext/ws.js")
     script(src="https://unpkg.com/hyperscript.org@0.0.5")
