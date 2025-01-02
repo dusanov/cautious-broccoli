@@ -1,0 +1,7 @@
+#llama-cpp-python
+llama-cpp-python==0.2.47
+#sentence-transformers
+fastapi
+uvicorn
+python-dotenv
+websockets
