@@ -1,25 +1,46 @@
 version: '3.1'
 services:
 
-  front:
-    image: claudia-front
+  profetisa:
+    image: profetisa
+    container_name: profetisa
     build:
-      context: front
+      context: profetisa
       dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: profetisa/src
     ports:
-      - "3000:3000"
+      - "8001:8001"
+    volumes:
+      - ${PWD}/profetisa/model/llama-2-7b-chat.Q2_K.gguf:/code/model/llama-2-7b-chat.Q2_K.gguf
     networks:
       - claudia-network
 
-  back:
-    image: claudia-back
+  embedder:
+    image: embedder
+    container_name: embedder
     build:
-      context: back
+      context: embeddings
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
+      - "8000:8000"
+    volumes:
+      - ${PWD}/embeddings/model/all-MiniLM-L6-v2:/code/model/all-MiniLM-L6-v2
     networks:
       - claudia-network
+
+  # front:
+  #   image: claudia-front
+  #   container_name: claudia-front
+  #   build:
+  #     context: front
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - claudia-network
 
   mongo-db:
     image: mongo

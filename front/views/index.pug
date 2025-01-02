@@ -8,17 +8,19 @@ html(lang="en")
   body
     nav.navbar.navbar-dark.bg-purple.shadow-sm.px-1.py-1
       .container
-        a.navbar-brand(href="#") Cuanto más pagues, más sabrás
+        a.navbar-brand(href="#") Hola Mundo
         span.navbar-text.text-white  #{name}
-        img.rounded-circle(fill="#00ff00" src='/static/avatar.svg' alt='user' width='50')
-    .container
+    .container(hx-ext="ws" ws-connect="ws://localhost:8080/ask")
       .row.bg-light.justify-content-center.rounded-xl.overflow-hidden.shadow
         main.col-10
-          div(hx-ext="ws" ws-connect="ws://localhost:3001/ask"  ws-target='#wall-div')
+          div
             .wall#wall-div.overflow-auto
               br
-            form(ws-send="submit").align-bottom
+            //- form(hx-send="submit" hx-post="http://localhost:3001/ask"  ws-target='#wall-div' hx-indicator="#indicator").align-bottom
+            //- form(ws-send hx-indicator="#indicator" ws-target='#wall-div').align-bottom
+            form(ws-send).align-bottom
               input.form-control(type="hidden", name="username", value=name, readonly)
+              input.form-control(type="hidden", name="sessionId", value=sessionId, readonly)
               .mb-3.row
                 label(for="txtMessage") Question:
                 textarea#txtMessage.form-control(rows="3", name="message", required="true")
@@ -27,6 +29,7 @@ html(lang="en")
                       button#button-addon2.btn.btn-link(type='submit')
                           i.fa.fa-paper-plane 
                             span Send
+              img#indicator.htmx-indicator( src="/static/loading.gif")
     script(src="/scripts/htmx.org/dist/htmx.min.js")
     script(src="/scripts/htmx.org/dist/ext/ws.js")
     script(src="https://unpkg.com/hyperscript.org@0.0.5")
