@@ -1,10 +1,10 @@
 # Claudia 0.1
 
-Before first run:
+## Before first run:
 
 `docker volume create --name mongodb_data_container`
 
-## Embedding service
+### Embedding service
 
 Before first run clone model inside embeddings folder:
 
@@ -12,6 +12,16 @@ Before first run clone model inside embeddings folder:
     cd model  
     git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
 
+
+### Profetisa
+
+Before first run under profetisa folder do:
+  ```
+  mkdir model
+  cd model
+  curl -L -O https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q2_K.gguf
+  ```
+## Running
 
 to bring app up:
 
