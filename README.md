@@ -15,7 +15,7 @@ Before first run clone model inside embeddings folder:
 
 ### Profetisa
 
-Before first run under profetisa folder do:
+Before first run under profetisa folder create model folder and download llama model into it:
   ```
   mkdir model
   cd model
