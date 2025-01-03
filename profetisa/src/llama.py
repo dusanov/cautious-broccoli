@@ -46,7 +46,7 @@ async def ask(websocket: WebSocket):
     for chunk in output:
         delta = chunk['choices'][0]['delta']
         if 'role' in delta:
-            # logger.info(" ==== role ===== " + delta['role']) #, end=': ')
+            logger.info(" ==== role ===== " + delta['role']) #, end=': ')
             # await websocket.send_text(delta['role'])
         elif 'content' in delta:
             # logger.info(" ==== content ===== " + delta['content']) #, end='')
