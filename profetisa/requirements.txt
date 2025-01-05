@@ -1,5 +1,5 @@
 #llama-cpp-python
-llama-cpp-python==0.2.47
+llama-cpp-python==0.2.72
 #sentence-transformers
 fastapi
 uvicorn
