@@ -9,7 +9,8 @@ const front_socket = require('./sockets')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-let username = 'Madame C';
+const title = "Hello Llama"
+const username = 'Usuaria Feliz';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +27,11 @@ app.use('/static', express.static(path.join(__dirname, '../static')));
 app.use(compression());
 
 app.get('/', (req: any, res: any) => {
-  res.render('index', { name: username, sessionId: req.session.id });
+  res.render('index', { title:title, name: username, sessionId: req.session.id });
+});
+
+app.get('/studio', (req: any, res: any) => {
+  res.render('studio', { name: username, sessionId: req.session.id });
 });
 
 app.listen(PORT);

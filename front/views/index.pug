@@ -2,34 +2,40 @@ doctype html
 html(lang="en")
   head
     title Profetisa Clarividente
-    link(href="/scripts/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
-    link(href="/static/studio-layout.css", rel="stylesheet")
-    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet")
+    link(href="/static/output.css", rel="stylesheet")
   body
-    nav.navbar.navbar-dark.bg-purple.shadow-sm.px-1.py-1
-      .container
-        a.navbar-brand(href="#") Hola Mundo
-        span.navbar-text.text-white  #{name}
-    .container(hx-ext="ws" ws-connect="ws://localhost:8080/ask")
-      .row.bg-light.justify-content-center.rounded-xl.overflow-hidden.shadow
-        main.col-10
-          div
-            .wall#wall-div.overflow-auto
-              br
-            //- form(hx-send="submit" hx-post="http://localhost:3001/ask"  ws-target='#wall-div' hx-indicator="#indicator").align-bottom
-            //- form(ws-send hx-indicator="#indicator" ws-target='#wall-div').align-bottom
-            form(ws-send).align-bottom
-              input.form-control(type="hidden", name="username", value=name, readonly)
-              input.form-control(type="hidden", name="sessionId", value=sessionId, readonly)
-              .mb-3.row
-                label(for="txtMessage") Question:
-                textarea#txtMessage.form-control(rows="3", name="message", required="true")
-              .d-grid.gap-2.col-3.mx-auto.mb-3
-                  .input-group-append
-                      button#button-addon2.btn.btn-link(type='submit')
-                          i.fa.fa-paper-plane 
-                            span Send
-              img#indicator.htmx-indicator( src="/static/loading.gif")
+    nav(class='dark:bg-slate-900 dark:text-slate-300 sm:text-base sm:leading-7')
+      .mx-auto.max-w-7xl.px-2(class='sm:px-6 lg:px-8')
+        .relative.flex.h-16.items-center.justify-between
+            a.left-10(href="#") #{title}
+            span.right-10 #{name}
+
+    // Prompt Messages Container - Modify the height according to your need
+    .flex.w-full.flex-col(class='h-[85vh]' hx-ext="ws" ws-connect="ws://localhost:8080/ask")
+      // Prompt Messages
+      #wall-div.flex-1.space-y-6.overflow-y-auto.rounded-xl.bg-slate-200.p-4.text-sm.leading-6.text-slate-900.shadow-sm(class='dark:bg-slate-900 dark:text-slate-300 sm:text-base sm:leading-7')
+        br
+
+
+      // Prompt message input
+      form.mt-2(ws-send)
+        input.form-control(type="hidden", name="username", value=name, readonly)
+        input.form-control(type="hidden", name="sessionId", value=sessionId, readonly)    
+        label.sr-only(for='message') Enter your prompt
+        .relative
+          button.absolute.inset-y-0.left-0.flex.items-center.pl-3.text-slate-500(type='button' class='hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-600')
+            svg.h-5.w-5(aria-hidden='true' viewbox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' stroke-width='2' stroke='currentColor' fill='none' stroke-linecap='round' stroke-linejoin='round')
+              path(stroke='none' d='M0 0h24v24H0z' fill='none')
+              path(d='M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z')
+              path(d='M5 10a7 7 0 0 0 14 0')
+              path(d='M8 21l8 0')
+              path(d='M12 17l0 4')
+            span.sr-only Use voice input
+          textarea#message.block.w-full.resize-none.rounded-xl.border-none.bg-slate-200.p-4.pl-10.pr-20.text-sm.text-slate-900( name="message" class='focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-900 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-600 sm:text-base' placeholder='Enter your prompt' rows='1' required='')
+          button.absolute.bottom-2.rounded-lg.bg-blue-700.px-4.py-2.text-sm.font-medium.text-slate-200(type='submit' class='right-2.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:text-base')
+            | Send 
+            span.sr-only Send message
+
     script(src="/scripts/htmx.org/dist/htmx.min.js")
     script(src="/scripts/htmx.org/dist/ext/ws.js")
     script(src="https://unpkg.com/hyperscript.org@0.0.5")
