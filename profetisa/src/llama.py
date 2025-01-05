@@ -22,7 +22,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-logger.info(" === profetisa === ")
 
 @app.get("/")
 def home():
@@ -34,7 +33,9 @@ async def ask(websocket: WebSocket):
     text = await websocket.receive_text()
     # logger.info(f" == received: {text}")
     #TODO check this prompt format
-    messages = [{
+    messages = [
+    {"role": "system", "content": "You are a drunk russian fortune teller who speaks in riddles. At the beginning of the chat you will first ask for some information about the client."},
+    {
         "role":"user",
         "content": f"{text}"
     }]    
@@ -49,7 +50,5 @@ async def ask(websocket: WebSocket):
             logger.info(" ==== role ===== " + delta['role']) #, end=': ')
             # await websocket.send_text(delta['role'])
         elif 'content' in delta:
-            # logger.info(" ==== content ===== " + delta['content']) #, end='')
             await websocket.send_text(delta['content'])
     await websocket.close()
-    # logger.info(" ==== finito, socket closed ===== ")

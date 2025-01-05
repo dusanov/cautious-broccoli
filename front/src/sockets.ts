@@ -9,7 +9,6 @@ wss.on('connection', (ws: WebSocket) => {
   console.log('Frontend connected');
 
   ws.on('message', (json_message: string) => {
-    // console.log(`Received message: ${json_message}`);
     const message = JSON.parse(json_message)    
     //return message to ui as a question
     ws.send(pug.renderFile('./templates/question.pug',{text:message.message}))
@@ -26,13 +25,11 @@ wss.on('connection', (ws: WebSocket) => {
         ws.send(pug.renderFile('./templates/answer_container.pug',{containerid:uuid}))    
       });
     profetisa.on('message', (message: string) => {
-      // console.log(`Received message from profetisa: ${message}`);
       // forward response from profetisa
       ws.send(pug.renderFile('./templates/answer.pug',{containerid:uuid,text:message}))    
     });    
     profetisa.on('close', () => {
       console.log('Disconnected from profetisa');
-      //close div (if opened)
     });    
     profetisa.on( 'error', (error) => {
         console.log(`There's been an profetisa error: ${error}`);
