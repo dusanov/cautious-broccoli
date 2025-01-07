@@ -26,10 +26,11 @@ wss.on('connection', (ws: WebSocket) => {
       });
     profetisa.on('message', (message: string) => {
       // forward response from profetisa
-      ws.send(pug.renderFile('./templates/answer.pug',{containerid:uuid,text:message}))    
+      ws.send(pug.renderFile('./templates/answer.pug',{containerid:uuid,text:message}))
     });    
     profetisa.on('close', () => {
       console.log('Disconnected from profetisa');
+      ws.send(pug.renderFile('./templates/answer_done.pug'))
     });    
     profetisa.on( 'error', (error) => {
         console.log(`There's been an profetisa error: ${error}`);

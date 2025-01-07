@@ -5,3 +5,6 @@
       = text
 
 textarea#message.block.w-full.resize-none.rounded-xl.border-none.bg-slate-200.p-4.pl-10.pr-20.text-sm.text-slate-900( name="message" class='focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-900 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-600 sm:text-base' placeholder='Enter your prompt' rows='1' required='' hx-swap-oob="true")
+button#send-button.absolute.bottom-2.rounded-lg.bg-blue-700.px-4.py-2.text-sm.font-medium.text-slate-200(type='submit' class='right-2.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:text-base' hx-swap-oob="true" disabled)
+  | Send 
+  span.sr-only Send message
