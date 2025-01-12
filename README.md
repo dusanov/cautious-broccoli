@@ -1,25 +1,19 @@
-# Claudia 0.1
+# Claudia 0.1 - Dusanov embedded resume gpt
+
+Talk to my resume :) 
+Exercise in RAG embedding, htmx, node and python
 
 ## Before first run:
 
-`docker volume create --name mongodb_data_container`
-
-### Embedding service
-
-Before first run clone model inside embeddings folder:
-
-    mkdir model  
-    cd model  
-    git clone https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
-
+After cloning the project:
 
 ### Profetisa
 
-Before first run under profetisa folder create model folder and download llama model into it:
+Before first run, under profetisa folder create model folder and download llm model into it ( 4.1G ):
   ```
   mkdir model
   cd model
-  curl -L -O https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q2_K.gguf
+  wget -c https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf
   ```
 ## Running
 
@@ -29,8 +23,21 @@ to bring app up:
 docker-compose up -d --build
 `
 
-bring down:
+Please note that it will take a while to build everything ( 713.1s on my box ). Also, on the first run embedder service will start the download of embedding model / library so it will be unresponsive on first couple of requests.
+
+Embeddings can be monitored by looking at the logs:
+
+`
+docker logs claudia-front --follow
+`
+
+To bring everything down:
 
 `
 docker-compose down
+`
+
+### Example question
+`
+What period and what did Dusan work on at the Smartcat doo company from Novi Sad ?
 `

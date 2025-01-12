@@ -1,11 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const compression = require('compression');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-
-const front_socket = require('./sockets')
+import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import './sockets';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,12 +25,12 @@ app.use('/scripts', express.static(path.join(__dirname, '../node_modules')));
 app.use('/static', express.static(path.join(__dirname, '../static')));
 app.use(compression());
 
-app.get('/', (req: any, res: any) => {
-  res.render('index', { title:title, name: username, sessionId: req.session.id });
+app.get('/', (req: express.Request, res: express.Response) => {
+  res.render('index', { title:title, name: username, sessionId: req.session!.id });
 });
 
-app.get('/studio', (req: any, res: any) => {
-  res.render('studio', { name: username, sessionId: req.session.id });
+app.get('/studio', (req: express.Request, res: express.Response) => {
+  res.render('studio', { name: username, sessionId: req.session!.id });
 });
 
 app.listen(PORT);

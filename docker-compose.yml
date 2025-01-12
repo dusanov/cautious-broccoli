@@ -12,9 +12,9 @@ services:
         - action: rebuild
           path: profetisa/src
     ports:
-      - "8001:8001"
+      - 8001:8001
     volumes:
-      - ${PWD}/profetisa/model/llama-2-7b-chat.Q2_K.gguf:/code/model/llama-2-7b-chat.Q2_K.gguf
+      - ${PWD}/profetisa/model/openhermes-2.5-mistral-7b.Q4_K_M.gguf:/code/model/openhermes-2.5-mistral-7b.Q4_K_M.gguf
     networks:
       - claudia-network
 
@@ -25,61 +25,51 @@ services:
       context: embeddings
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
-    volumes:
-      - ${PWD}/embeddings/model/all-MiniLM-L6-v2:/code/model/all-MiniLM-L6-v2
+      - 8000:8000
     networks:
       - claudia-network
-
-  # front:
-  #   image: claudia-front
-  #   container_name: claudia-front
-  #   build:
-  #     context: front
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - claudia-network
-
-  mongo-db:
-    image: mongo
-    container_name: mongo
-    environment:
-      MONGO_INITDB_DATABASE: claudia  
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data_container:/data/db
-      - ${PWD}/storage/init/mongo-init.js:/docker-entrypoint-initdb.d/a.js
-    networks:
-      - claudia-network
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    ports:
-      - 8081:8081
     depends_on:
-      - mongo-db
-    restart: always      
-    environment:
-      ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: q
-      ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      - qdrant
+
+  front:
+    image: claudia-front
+    container_name: claudia-front
+    build:
+      context: front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+      - 8080:8080
     networks:
       - claudia-network
+    depends_on:
+      - embedder
+      - profetisa
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    container_name: qdrant
+    ports:
+      - 6333:6333
+      - 6334:6334
+    expose:
+      - 6333
+      - 6334
+      - 6335
+    configs:
+      - source: qdrant_config
+        target: /qdrant/config/production.yaml
+    volumes:
+      - ./qdrant_data:/qdrant/storage
+    networks:
+      - claudia-network
+
+configs:
+  qdrant_config:
+    content: |
+      log_level: INFO      
 
 networks: 
     claudia-network:
       driver: bridge
-
-# requires: docker volume create --name mongodb_data_container
-volumes:
-    mongodb_data_container:
-      external: true

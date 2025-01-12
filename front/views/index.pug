@@ -12,11 +12,9 @@ html(lang="en")
 
     // Prompt Messages Container - Modify the height according to your need
     .flex.w-full.flex-col(class='h-[85vh]' hx-ext="ws" ws-connect="ws://localhost:8080/ask")
-      // Prompt Messages
-      #wall-div.overflow-y-auto.space-y-6.rounded-xl.bg-slate-200.p-4.text-sm.leading-6.text-slate-900.shadow-sm(class='dark:bg-slate-900 dark:text-slate-300 sm:text-base sm:leading-7 flex flex-col h-full justify-end')
+      // Prompt Messages -> when justify-end is on, it won't show to y scrollbar 
+      #wall-div(class='dark:bg-slate-900 dark:text-slate-300 sm:text-base sm:leading-7 overflow-y-auto flex flex-col h-full space-y-6 rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 shadow-sm')
         br
-
-
       // Prompt message input
       form.mt-2(ws-send)
         input.form-control(type="hidden", name="username", value=name, readonly)

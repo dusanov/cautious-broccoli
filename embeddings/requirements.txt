@@ -1,5 +1,7 @@
-sentence-transformers
+python-dotenv
+pydantic 
 fastapi
 uvicorn
-python-dotenv
-pymongo
+qdrant-client
+fastembed
+beautifulsoup4

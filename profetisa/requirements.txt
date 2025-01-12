@@ -1,6 +1,4 @@
-#llama-cpp-python
-llama-cpp-python==0.2.72
-#sentence-transformers
+llama-cpp-python
 fastapi
 uvicorn
 python-dotenv

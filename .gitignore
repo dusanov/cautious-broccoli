@@ -1,4 +1,5 @@
 # Logs
+qdrant_data
 logs
 *.log
 npm-debug.log*
