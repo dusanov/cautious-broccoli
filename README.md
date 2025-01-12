@@ -1,6 +1,5 @@
-# Claudia 0.1 - Dusanov embedded resume gpt
+# Claudia 0.1 - Dusanov embedded resume
 
-Talk to my resume :) 
 Exercise in RAG embedding, htmx, node and python
 
 ## Before first run:
@@ -20,7 +19,7 @@ Before first run, under profetisa folder create model folder and download llm mo
 to bring app up:
 
 `
-docker-compose up -d --build
+docker compose up -d --build
 `
 
 Please note that it will take a while to build everything ( 713.1s on my box ). Also, on the first run embedder service will start the download of embedding model / library so it will be unresponsive on first couple of requests.
@@ -31,10 +30,12 @@ Embeddings can be monitored by looking at the logs:
 docker logs claudia-front --follow
 `
 
+App url is: [http://localhost:3000](http://localhost:3000)
+
 To bring everything down:
 
 `
-docker-compose down
+docker compose down
 `
 
 ### Example question
