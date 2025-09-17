@@ -42,3 +42,5 @@ docker compose down
 `
 What period and what did Dusan work on at the Smartcat doo company from Novi Sad ?
 `
+
+[![Video Title](https://img.youtube.com/vi/bgh_oPE6hes/0.jpg)](https://www.youtube.com/watch?v=bgh_oPE6hes)
